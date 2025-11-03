@@ -4,7 +4,7 @@ const animaisController = require('../controllers/animaisController');
 const router = Router();
 
 // GET - Listar todos os animais
-router.get('/', animaisController.listarAnimais);
+router.get('/animais', animaisController.listarAnimais);
 
 // POST - Criar novo animal
 
