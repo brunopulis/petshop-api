@@ -46,8 +46,11 @@ const animais = [
     observacoes: 'Aquário de 5 litros.',
   },
 ];
+
 let nextId = animais.reduce((max, animal) => (animal.id > max ? animal.id : max), 0) + 1;
 
 exports.listarAnimais = (req, res) => {
   res.status(200).json(animais);
 }
+
+
