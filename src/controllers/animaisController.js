@@ -47,72 +47,27 @@ const animais = [
   },
 ];
 
-let nextId = animais.reduce((max, animal) => (animal.id > max ? animal.id : max), 0) + 1;
+let nextId =
+  animais.reduce((max, animal) => (animal.id > max ? animal.id : max), 0) + 1;
 
 exports.listarAnimais = (req, res) => {
-  /* 
-    #swagger.tags = ['Animais']
-    #swagger.summary = 'Lista todos os animais cadastrados'
-    #swagger.description = 'Retorna um array com todos os objetos de animais.'
-    #swagger.responses[200] = { 
-      schema: { $ref: "#/definitions/ListaAnimaisResponse" },
-      description: 'Lista de animais obtida com sucesso.' 
-    }
-  */
   res.status(200).json({
     message: 'Animais listados com sucesso.',
     data: animais,
   });
-}
+};
 
 exports.criarAnimal = (req, res) => {
-  /* 
-    #swagger.tags = ['Animais']
-    #swagger.summary = 'Cria um novo animal'
-    #swagger.description = 'Adiciona um novo animal à lista com um ID gerado automaticamente.'
-    #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'Dados do animal a ser criado (ID é ignorado).',
-      required: true,
-      schema: { $ref: "#/definitions/Animal" }
-    }
-    #swagger.responses[201] = { 
-      schema: { $ref: "#/definitions/AnimalResponse" },
-      description: 'Animal criado com sucesso.' 
-    }
-    #swagger.responses[400] = { 
-      schema: { $ref: "#/definitions/ErrorResponse" },
-      description: 'Requisição inválida (campos faltando).' 
-    }
-  */
   const novoAnimal = { id: nextId++, ...req.body };
   animais.push(novoAnimal);
 
   res.status(201).json({
     message: 'Animal criado com sucesso',
-    data: novoAnimal
+    data: novoAnimal,
   });
-}
+};
 
 exports.buscarAnimal = (req, res) => {
-  /* #swagger.tags = ['Animais']
-    #swagger.summary = 'Busca um animal por ID'
-    #swagger.description = 'Retorna o objeto de um animal específico usando seu ID.'
-    #swagger.parameters['id'] = {
-        in: 'path',
-        description: 'ID do animal.',
-        required: true,
-        type: 'integer'
-    }
-    #swagger.responses[200] = { 
-        schema: { $ref: "#/definitions/AnimalResponse" },
-        description: 'Animal encontrado com sucesso.' 
-    }
-    #swagger.responses[404] = { 
-        schema: { $ref: "#/definitions/ErrorResponse" },
-        description: 'Animal não encontrado.' 
-    }
-  */
   const animal = animais.find((a) => a.id === Number(req.params.id));
 
   if (animal) {
@@ -126,30 +81,6 @@ exports.buscarAnimal = (req, res) => {
 };
 
 exports.atualizarAnimalCompleto = (req, res) => {
-  /* #swagger.tags = ['Animais']
-    #swagger.summary = 'Atualiza (Substitui) um animal por ID (PUT)'
-    #swagger.description = 'Substitui o objeto inteiro do animal. Todos os campos do payload são obrigatórios.'
-    #swagger.parameters['id'] = {
-        in: 'path',
-        description: 'ID do animal a ser substituído.',
-        required: true,
-        type: 'integer'
-    }
-    #swagger.parameters['body'] = {
-        in: 'body',
-        description: 'Dados completos do animal para substituição.',
-        required: true,
-        schema: { $ref: "#/definitions/Animal" }
-    }
-    #swagger.responses[200] = { 
-        schema: { $ref: "#/definitions/AnimalResponse" },
-        description: 'Animal substituído com sucesso.' 
-    }
-    #swagger.responses[201] = { 
-        schema: { $ref: "#/definitions/AnimalResponse" },
-        description: 'Recurso criado (upsert) com sucesso.' 
-    }
-  */
   const id = Number(req.params.id);
   const index = animais.findIndex((a) => a.id === id);
 
@@ -170,33 +101,6 @@ exports.atualizarAnimalCompleto = (req, res) => {
 };
 
 exports.atualizarAnimalParcial = (req, res) => {
-  /* #swagger.tags = ['Animais']
-    #swagger.summary = 'Atualiza (Parcialmente) um animal por ID (PATCH)'
-    #swagger.description = 'Atualiza um ou mais campos do animal sem substituir o objeto inteiro.'
-    #swagger.parameters['id'] = {
-        in: 'path',
-        description: 'ID do animal a ser atualizado.',
-        required: true,
-        type: 'integer'
-    }
-    #swagger.parameters['body'] = {
-        in: 'body',
-        description: 'Dados parciais do animal para atualização.',
-        required: true,
-        schema: { 
-            "pesoKg": 32.0,
-            "observacoes": "Precisa de tosa."
-        }
-    }
-    #swagger.responses[200] = { 
-        schema: { $ref: "#/definitions/AnimalResponse" },
-        description: 'Animal atualizado parcialmente com sucesso.' 
-    }
-    #swagger.responses[404] = { 
-        schema: { $ref: "#/definitions/ErrorResponse" },
-        description: 'Animal não encontrado.' 
-    }
-  */
   const id = Number(req.params.id);
   const index = animais.findIndex((a) => a.id === id);
 
@@ -213,24 +117,6 @@ exports.atualizarAnimalParcial = (req, res) => {
 };
 
 exports.deletarAnimal = (req, res) => {
-  /* #swagger.tags = ['Animais']
-    #swagger.summary = 'Deleta um animal por ID'
-    #swagger.description = 'Remove permanentemente o animal da lista.'
-    #swagger.parameters['id'] = {
-        in: 'path',
-        description: 'ID do animal a ser deletado.',
-        required: true,
-        type: 'integer'
-    }
-    #swagger.responses[200] = { 
-        schema: { $ref: "#/definitions/DeleteResponse" },
-        description: 'Animal deletado com sucesso.' 
-    }
-    #swagger.responses[404] = { 
-        schema: { $ref: "#/definitions/ErrorResponse" },
-        description: 'Animal não encontrado.' 
-    }
-  */
   const id = Number(req.params.id);
   const initialLength = animais.length;
 

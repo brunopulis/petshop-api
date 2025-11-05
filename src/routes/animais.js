@@ -4,7 +4,6 @@ const animaisController = require('../controllers/animaisController');
 const router = Router();
 
 // GET - Listar todos os animais
-
 // URL final: /api/v1 + /animais + /animais
 // router.get('/animais', animaisController.listarAnimais);
 router.get('/', animaisController.listarAnimais);

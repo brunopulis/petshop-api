@@ -8,18 +8,15 @@
     "dev": "nodemon src/app.js",
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint src/**/*.js --fix",
-    "format": "prettier --write \"src/**/*.js\"",
-    "swagger:autogen": "node swagger.js"
+    "format": "prettier --write \"src/**/*.js\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "swagger-autogen": "^2.23.7",
-    "swagger-ui-express": "^5.0.1"
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
@@ -29,6 +26,6 @@
     "eslint-plugin-prettier": "^5.5.4",
     "globals": "^16.5.0",
     "nodemon": "^3.1.10",
-    "prettier": "^3.6.2"
+    "prettier": "3.6.2"
   }
 }
