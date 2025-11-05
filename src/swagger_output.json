@@ -1,0 +1,267 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Petshop API - Treinamento QA",
+    "description": "Documentação da API de Petshop para treinamento de Testes de API."
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Animais",
+      "description": "Endpoints para a gestão de animais."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/animais/": {
+      "get": {
+        "tags": [
+          "Animais"
+        ],
+        "summary": "Lista todos os animais cadastrados",
+        "description": "Retorna um array com todos os objetos de animais.",
+        "responses": {
+          "200": {
+            "description": "Lista de animais obtida com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/ListaAnimaisResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Animais"
+        ],
+        "summary": "Cria um novo animal",
+        "description": "Adiciona um novo animal à lista com um ID gerado automaticamente.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do animal a ser criado (ID é ignorado).",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Animal"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Animal criado com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/AnimalResponse"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "description": "Requisição inválida (campos faltando)."
+          }
+        }
+      }
+    },
+    "/animais/{id}": {
+      "get": {
+        "tags": [
+          "Animais"
+        ],
+        "summary": "Busca um animal por ID",
+        "description": "Retorna o objeto de um animal específico usando seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do animal."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Animal encontrado com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/AnimalResponse"
+            }
+          },
+          "404": {
+            "description": "Animal não encontrado.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Animais"
+        ],
+        "summary": "Atualiza (Parcialmente) um animal por ID (PATCH)",
+        "description": "Atualiza um ou mais campos do animal sem substituir o objeto inteiro.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do animal a ser atualizado."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados parciais do animal para atualização.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pesoKg": {
+                  "type": "number",
+                  "example": 32
+                },
+                "observacoes": {
+                  "type": "string",
+                  "example": "Precisa de tosa."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Animal atualizado parcialmente com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/AnimalResponse"
+            }
+          },
+          "404": {
+            "description": "Animal não encontrado.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Animais"
+        ],
+        "summary": "Deleta um animal por ID",
+        "description": "Remove permanentemente o animal da lista.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do animal a ser deletado."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Animal deletado com sucesso.",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "404": {
+            "description": "Animal não encontrado.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Animal": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "nome": {
+          "type": "string",
+          "example": "Rex"
+        },
+        "especie": {
+          "type": "string",
+          "example": "Cachorro"
+        },
+        "raca": {
+          "type": "string",
+          "example": "Labrador"
+        },
+        "dataNascimento": {
+          "type": "string",
+          "example": "2020-05-15"
+        },
+        "pesoKg": {
+          "type": "number",
+          "example": 30.5
+        },
+        "observacoes": {
+          "type": "string",
+          "example": "Dócil, adora brinquedos de corda."
+        }
+      }
+    },
+    "ListaAnimaisResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Animais listados com sucesso."
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Animal"
+          }
+        }
+      }
+    },
+    "AnimalResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Animal encontrado com sucesso."
+        },
+        "data": {
+          "$ref": "#/definitions/Animal"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Animal não encontrado"
+        }
+      }
+    },
+    "DeleteResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Animal deletado com sucesso."
+        }
+      }
+    }
+  }
+}
